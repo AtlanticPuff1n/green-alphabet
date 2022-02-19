@@ -17,3 +17,13 @@ server:
 eureka:
   instance:
     instance-id: ${spring.application.name}:${random.uuid}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: hystrix.stream
+
+hystrix:
+  dashboard:
+    proxy-stream-allow-list: "*"

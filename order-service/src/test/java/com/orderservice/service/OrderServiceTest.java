@@ -1,9 +1,5 @@
 package com.orderservice.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.when;
-
 import com.orderservice.client.InventoryClient;
 import com.orderservice.dto.OrderDTO;
 import com.orderservice.repository.OrderRepository;
@@ -11,11 +7,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JCircuitBreakerFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@ContextConfiguration(classes = {OrderService.class, Resilience4JCircuitBreakerFactory.class})
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.when;
+
+@ContextConfiguration(classes = {OrderService.class})
 @ExtendWith(SpringExtension.class)
 class OrderServiceTest {
     @MockBean
@@ -46,4 +45,3 @@ class OrderServiceTest {
         assertEquals("The product in the order is out of stock", this.orderService.addOrder(orderDTO));
     }
 }
-

@@ -16,7 +16,7 @@ public class OrderController {
     private OrderService orderService;
 
     @PostMapping
-    public String placeOrder(@RequestBody OrderDTO orderDto) {
+    public String addOrder(@RequestBody OrderDTO orderDto) {
         return orderService.addOrder(orderDto);
     }
 }

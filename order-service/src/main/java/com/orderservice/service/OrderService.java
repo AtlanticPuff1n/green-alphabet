@@ -1,12 +1,12 @@
 package com.orderservice.service;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import com.orderservice.client.InventoryClient;
 import com.orderservice.dto.OrderDTO;
 import com.orderservice.model.Order;
 import com.orderservice.repository.OrderRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JCircuitBreaker;
-import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JCircuitBreakerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -14,17 +14,14 @@ import java.util.UUID;
 @Service
 @AllArgsConstructor
 public class OrderService {
-
     private OrderRepository orderRepository;
     private InventoryClient inventoryClient;
-    private Resilience4JCircuitBreakerFactory circuitBreakerFactory;
 
+    @HystrixCommand(fallbackMethod = "placeOrderFallback", commandProperties = {
+            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "2000")
+    })
     public String addOrder(OrderDTO orderDTO) {
-        Resilience4JCircuitBreaker circuitBreaker = circuitBreakerFactory.create("inventory");
-        boolean isProductInStock = circuitBreaker.run(
-                () -> inventoryClient.checkStock(orderDTO.getSKU()),
-                throwable -> handleErrorCase()
-        );
+        boolean isProductInStock = inventoryClient.checkStock(orderDTO.getSKU());
 
         if (isProductInStock) {
             Order order = Order.builder()
@@ -40,7 +37,7 @@ public class OrderService {
         }
     }
 
-    private Boolean handleErrorCase() {
-        return false;
+    private String placeOrderFallback(OrderDTO orderDTO) {
+        return "Request fails. It takes long time to response";
     }
 }
