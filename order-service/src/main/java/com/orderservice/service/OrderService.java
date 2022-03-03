@@ -18,7 +18,8 @@ public class OrderService {
     private InventoryClient inventoryClient;
 
     @HystrixCommand(fallbackMethod = "placeOrderFallback", commandProperties = {
-            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "2000")
+            @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "3"),
+            @HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "5000")
     })
     public String addOrder(OrderDTO orderDTO) {
         boolean isProductInStock = inventoryClient.checkStock(orderDTO.getSKU());
