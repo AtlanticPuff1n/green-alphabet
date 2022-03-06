@@ -1,4 +1,4 @@
-package com.productservice.controller;
+package com.productservice.controller.Impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.productservice.model.Product;
@@ -22,11 +22,11 @@ import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 
-@ContextConfiguration(classes = {ProductController.class})
+@ContextConfiguration(classes = {ProductControllerImpl.class})
 @ExtendWith(SpringExtension.class)
-class ProductControllerTest {
+class ProductControllerImplTest {
     @Autowired
-    private ProductController productController;
+    private ProductControllerImpl productControllerImpl;
 
     @MockBean
     private ProductService productService;
@@ -43,7 +43,7 @@ class ProductControllerTest {
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/api/product/add")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content);
-        ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(this.productController)
+        ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(this.productControllerImpl)
                 .build()
                 .perform(requestBuilder);
         actualPerformResult.andExpect(MockMvcResultMatchers.status().isCreated());
@@ -61,7 +61,7 @@ class ProductControllerTest {
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/api/product/add")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content);
-        ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(this.productController)
+        ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(this.productControllerImpl)
                 .build()
                 .perform(requestBuilder);
         actualPerformResult.andExpect(MockMvcResultMatchers.status().isCreated());
@@ -71,7 +71,7 @@ class ProductControllerTest {
     void testGetAllProducts() throws Exception {
         when(this.productService.getAllProducts()).thenReturn(new ArrayList<>());
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/product");
-        MockMvcBuilders.standaloneSetup(this.productController)
+        MockMvcBuilders.standaloneSetup(this.productControllerImpl)
                 .build()
                 .perform(requestBuilder)
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -84,7 +84,7 @@ class ProductControllerTest {
         when(this.productService.getAllProducts()).thenReturn(new ArrayList<>());
         MockHttpServletRequestBuilder getResult = MockMvcRequestBuilders.get("/api/product");
         getResult.characterEncoding("Encoding");
-        MockMvcBuilders.standaloneSetup(this.productController)
+        MockMvcBuilders.standaloneSetup(this.productControllerImpl)
                 .build()
                 .perform(getResult)
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -96,7 +96,7 @@ class ProductControllerTest {
     void testGetAllProducts3() throws Exception {
         when(this.productService.getAllProducts()).thenReturn(new ArrayList<>());
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/product");
-        MockMvcBuilders.standaloneSetup(this.productController)
+        MockMvcBuilders.standaloneSetup(this.productControllerImpl)
                 .build()
                 .perform(requestBuilder)
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -109,7 +109,7 @@ class ProductControllerTest {
         when(this.productService.getAllProducts()).thenReturn(new ArrayList<>());
         MockHttpServletRequestBuilder getResult = MockMvcRequestBuilders.get("/api/product");
         getResult.characterEncoding("Encoding");
-        MockMvcBuilders.standaloneSetup(this.productController)
+        MockMvcBuilders.standaloneSetup(this.productControllerImpl)
                 .build()
                 .perform(getResult)
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -126,7 +126,7 @@ class ProductControllerTest {
         Optional<Product> ofResult = Optional.of(product);
         when(this.productService.getProduct((Long) any())).thenReturn(ofResult);
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/product/{id}", 123L);
-        MockMvcBuilders.standaloneSetup(this.productController)
+        MockMvcBuilders.standaloneSetup(this.productControllerImpl)
                 .build()
                 .perform(requestBuilder)
                 .andExpect(MockMvcResultMatchers.status().isOk())

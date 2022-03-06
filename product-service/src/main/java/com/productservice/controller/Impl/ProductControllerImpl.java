@@ -1,36 +1,33 @@
-package com.productservice.controller;
+package com.productservice.controller.Impl;
 
+import com.productservice.controller.api.ProductControllerApi;
 import com.productservice.model.Product;
 import com.productservice.service.ProductService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/product")
 @AllArgsConstructor
-public class ProductController {
+public class ProductControllerImpl implements ProductControllerApi {
 
     private ProductService productService;
 
-    @GetMapping
-    @ResponseStatus(HttpStatus.OK)
+    @Override
     public List<Product> getAllProducts() {
         return productService.getAllProducts();
     }
 
-    @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
+    @Override
     public Optional<Product> getProduct(@PathVariable Long id) {
         return productService.getProduct(id);
     }
 
-
-    @PostMapping("/add")
-    @ResponseStatus(HttpStatus.CREATED)
+    @Override
     public void addProduct(@RequestBody Product product) {
         productService.saveProduct(product);
     }

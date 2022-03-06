@@ -1,4 +1,4 @@
-package com.orderservice.controller;
+package com.orderservice.controller.Impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.orderservice.dto.OrderDTO;
@@ -18,11 +18,11 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.math.BigDecimal;
 
-@ContextConfiguration(classes = {OrderController.class})
+@ContextConfiguration(classes = {OrderControllerImpl.class})
 @ExtendWith(SpringExtension.class)
-class OrderControllerTest {
+class OrderControllerImplTest {
     @Autowired
-    private OrderController orderController;
+    private OrderControllerImpl orderControllerImpl;
 
     @MockBean
     private OrderService orderService;
@@ -37,7 +37,7 @@ class OrderControllerTest {
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/order")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content);
-        ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(this.orderController)
+        ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(this.orderControllerImpl)
                 .build()
                 .perform(requestBuilder);
         actualPerformResult.andExpect(MockMvcResultMatchers.status().is(405));

@@ -1,4 +1,4 @@
-package com.inventoryservice.controller;
+package com.inventoryservice.controller.Impl;
 
 import com.inventoryservice.service.InventoryService;
 import org.junit.jupiter.api.Test;
@@ -17,11 +17,11 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
 
-@ContextConfiguration(classes = {InventoryController.class})
+@ContextConfiguration(classes = {InventoryControllerImpl.class})
 @ExtendWith(SpringExtension.class)
-class InventoryControllerTest {
+class InventoryControllerImplTest {
     @Autowired
-    private InventoryController inventoryController;
+    private InventoryControllerImpl inventoryControllerImpl;
 
     @MockBean
     private InventoryService inventoryService;
@@ -30,7 +30,7 @@ class InventoryControllerTest {
     void testIsInStock() throws Exception {
         when(this.inventoryService.isProductInStock((String) any())).thenReturn(true);
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/inventory/{SKU}", "SKU");
-        ResultActions resultActions = MockMvcBuilders.standaloneSetup(this.inventoryController)
+        ResultActions resultActions = MockMvcBuilders.standaloneSetup(this.inventoryControllerImpl)
                 .build()
                 .perform(requestBuilder)
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -44,7 +44,7 @@ class InventoryControllerTest {
         when(this.inventoryService.isProductInStock((String) any())).thenReturn(true);
         MockHttpServletRequestBuilder getResult = MockMvcRequestBuilders.get("/api/inventory/{SKU}", "SKU");
         getResult.characterEncoding("Encoding");
-        ResultActions resultActions = MockMvcBuilders.standaloneSetup(this.inventoryController)
+        ResultActions resultActions = MockMvcBuilders.standaloneSetup(this.inventoryControllerImpl)
                 .build()
                 .perform(getResult)
                 .andExpect(MockMvcResultMatchers.status().isOk())

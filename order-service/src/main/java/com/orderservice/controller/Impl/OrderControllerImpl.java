@@ -1,21 +1,19 @@
-package com.orderservice.controller;
+package com.orderservice.controller.Impl;
 
+import com.orderservice.controller.api.OrderControllerApi;
 import com.orderservice.dto.OrderDTO;
 import com.orderservice.service.OrderService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/order")
 @AllArgsConstructor
-public class OrderController {
+public class OrderControllerImpl implements OrderControllerApi {
 
     private OrderService orderService;
 
-    @PostMapping
+    @Override
     public String addOrder(@RequestBody OrderDTO orderDto) {
         return orderService.addOrder(orderDto);
     }
