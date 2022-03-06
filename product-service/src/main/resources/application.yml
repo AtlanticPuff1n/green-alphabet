@@ -14,6 +14,9 @@ spring:
     cache-names: getProduct, getAllProducts
     caffeine:
       spec: maximumSize=500, expireAfterAccess=300s
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 
 server:
   port: 0
